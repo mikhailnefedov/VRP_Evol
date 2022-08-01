@@ -7,21 +7,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class RouletteSelection implements ISelection {
-
-    private int selectionCount;
+public class RouletteSelection extends BaseSelection {
 
     @Override
-    public ArrayList<VRPIndividual> select(ArrayList<VRPIndividual> generation) {
-        ArrayList<Double> probabilityRange = computeProbabilityRanges(generation);
+    public ArrayList<VRPIndividual> select(ArrayList<VRPIndividual> individuals) {
+        ArrayList<Double> probabilityRange = computeProbabilityRanges(individuals);
         Random random = new Random();
         ArrayList<VRPIndividual> parents = new ArrayList<>();
 
         while (parents.size() < selectionCount) {
             double randomProbability = random.nextDouble();
-            for (int i = 0; i < generation.size(); i++) {
+            for (int i = 0; i < individuals.size(); i++) {
                 if (isProbabilityInRange(randomProbability, probabilityRange.get(i), probabilityRange.get(i + 1))) {
-                    parents.add(generation.get(i));
+                    parents.add(individuals.get(i));
                 }
             }
         }
@@ -75,11 +73,6 @@ public class RouletteSelection implements ISelection {
 
     private double computeTotalLengthOfRoutes(ArrayList<VRPIndividual> generation) {
         return generation.stream().map(VRPIndividual::getFitness).reduce(0.0, Double::sum);
-    }
-
-    @Override
-    public void setSelectionCount(int selectionCount) {
-        this.selectionCount = selectionCount;
     }
 
     @Override

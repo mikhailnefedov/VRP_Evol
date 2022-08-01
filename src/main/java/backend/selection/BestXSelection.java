@@ -6,25 +6,22 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-public class TopXSelection implements ISelection {
-
-    private int selectionCount;
+/**
+ * The best x individuals will be selected
+ */
+public class BestXSelection extends BaseSelection {
 
     @Override
-    public ArrayList<VRPIndividual> select(ArrayList<VRPIndividual> generation) {
-        return generation.stream()
+    public ArrayList<VRPIndividual> select(ArrayList<VRPIndividual> individuals) {
+        return individuals.stream()
                 .sorted(Comparator.comparingDouble(VRPIndividual::getFitness))
                 .limit(selectionCount)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    @Override
-    public void setSelectionCount(int selectionCount) {
-        this.selectionCount = selectionCount;
-    }
 
     @Override
     public String toString() {
-        return "TopXSelection";
+        return "BestXSelection";
     }
 }
