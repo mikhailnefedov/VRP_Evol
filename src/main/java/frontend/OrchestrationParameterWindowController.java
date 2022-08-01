@@ -41,8 +41,6 @@ public class OrchestrationParameterWindowController {
     @FXML
     private TextField deliveryTruckCount;
     @FXML
-    private ComboBox<IData> mapPicker;
-    @FXML
     private TextField populationCount;
     @FXML
     private TextField parentsCount;
@@ -69,9 +67,6 @@ public class OrchestrationParameterWindowController {
         fitnessPicker.getItems().addAll(new LongestRouteFitness(), new SumOfRoutesFitness(), new PenaltySumOfRoutesFitness());
         fitnessPicker.getSelectionModel().select(0);
 
-        //map
-        mapPicker.getItems().addAll(new DebugProblem(), new TestProblem(), new AugeratSetAN32(), new Cluster4());
-        mapPicker.getSelectionModel().select(0);
     }
 
     public void startGeneticAlgorithm() {
@@ -105,7 +100,8 @@ public class OrchestrationParameterWindowController {
         parameters.setDeliveryTruckCount(Integer.parseInt(deliveryTruckCount.getText()));
 
         //map
-        parameters.setMapType(mapPicker.getValue());
+        IData data = new Cluster4();
+        parameters.setMapType(data);
 
         parameters.setPopulationCount(Integer.parseInt(populationCount.getText()));
 
