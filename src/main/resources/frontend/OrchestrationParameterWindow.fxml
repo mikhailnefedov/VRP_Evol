@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane prefHeight="510.0" prefWidth="177.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.OrchestrationParameterWindowController">
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="85.20001831054688" minHeight="10.0" prefHeight="47.40000400543213" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="187.20000305175785" minHeight="10.0" prefHeight="35.19998779296875" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="187.20000305175785" minHeight="10.0" prefHeight="35.19998779296875" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="187.20000305175785" minHeight="10.0" prefHeight="35.19998779296875" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="187.20000305175785" minHeight="10.0" prefHeight="35.19998779296875" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="31.200012207031257" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="66.60000610351562" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="62.59999389648439" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="53.00000610351563" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="55.00000610351563" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="33.399993896484375" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="26.600012207031227" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="196.79999389648438" minHeight="10.0" prefHeight="38.79998779296875" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <ComboBox fx:id="mutationPicker" prefWidth="150.0" />
+      <TextField fx:id="mutationRate" promptText="Mutationsrate" text="0.2" GridPane.rowIndex="2" />
+      <TextField fx:id="generationCount" promptText="Generationsanzahl" text="200" GridPane.rowIndex="5" />
+      <Button mnemonicParsing="false" onAction="#startGeneticAlgorithm" text="Start!" GridPane.rowIndex="13" />
+      <ComboBox fx:id="selectionPicker" prefWidth="150.0" GridPane.rowIndex="6" />
+      <ComboBox fx:id="crossoverPicker" prefWidth="150.0" GridPane.rowIndex="7" />
+      <ComboBox fx:id="fitnessPicker" prefWidth="150.0" GridPane.rowIndex="8" />
+      <ComboBox fx:id="mapPicker" prefWidth="150.0" GridPane.rowIndex="10" />
+      <TextField fx:id="crossoverRate" disable="true" promptText="Crossoverwahrscheinlichkeit" text="0.1" GridPane.rowIndex="3" />
+      <Label text="Mutationsrate:" GridPane.rowIndex="1" />
+      <Label text="Rekombinationsrate" GridPane.rowIndex="3" />
+      <GridPane GridPane.rowIndex="11">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="populationCount" prefHeight="26.0" prefWidth="106.0" promptText="Populationsgröße" text="50" GridPane.columnIndex="1" />
+            <Label text="Populationsgröße" />
+         </children>
+      </GridPane>
+      <GridPane GridPane.rowIndex="12">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TextField fx:id="parentsCount" prefHeight="26.0" prefWidth="106.0" promptText="Populationsgröße" text="20" GridPane.columnIndex="1" />
+            <Label text="Eltern" />
+         </children>
+      </GridPane>
+      <Label text="Generationsanzahl:" GridPane.rowIndex="4" />
+      <GridPane GridPane.rowIndex="9">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="deliveryTruckCount" prefWidth="104.0" promptText="Anzahl LKWs" text="2" GridPane.columnIndex="1" />
+            <Label text="Anzahl LKWs:" />
+         </children>
+      </GridPane>
+   </children>
+</GridPane>
