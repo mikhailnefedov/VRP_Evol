@@ -14,7 +14,7 @@ import backend.mutation.SwapMutation;
 import backend.orchestration.GeneticAlgorithmOrchestrator;
 import backend.orchestration.OrchestrationParameters;
 import backend.selection.ISelection;
-import backend.selection.RouletteSelection;
+import backend.selection.RankingBasedSelection;
 import backend.selection.BestXSelection;
 import backend.selection.TournamentSelection;
 import javafx.fxml.FXML;
@@ -49,7 +49,7 @@ public class OrchestrationParameterWindowController {
     @FXML
     protected void initialize() {
         //selection
-        selectionPicker.getItems().addAll(new BestXSelection(), new RouletteSelection(), new TournamentSelection());
+        selectionPicker.getItems().addAll(new BestXSelection(), new RankingBasedSelection(), new TournamentSelection());
         selectionPicker.getSelectionModel().select(0);
 
         //mutation
