@@ -20,7 +20,6 @@ public class GeneticAlgorithmOrchestrator {
 
     private ISelection selection;
     private ICrossover crossover;
-    private double crossoverRate;
     private IMutation mutation;
     private final int generationCount;
     private final int deliveryTruckCount;
@@ -35,7 +34,6 @@ public class GeneticAlgorithmOrchestrator {
     public GeneticAlgorithmOrchestrator(OrchestrationParameters parameters) {
         this.selection = parameters.getSelectionType();
         this.crossover = parameters.getCrossoverType();
-        this.crossoverRate = parameters.getCrossoverRate();
         this.mutation = parameters.getMutationType();
         this.generationCount = parameters.getGenerationCount();
         this.deliveryTruckCount = parameters.getDeliveryTruckCount();

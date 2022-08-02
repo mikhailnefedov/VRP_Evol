@@ -12,7 +12,6 @@ public class OrchestrationParameters {
 
     private ISelection selectionType;
     private ICrossover crossoverType;
-    private double crossoverRate;
     private IMutation mutationType;
     private IFitness fitnessType;
     private int generationCount;

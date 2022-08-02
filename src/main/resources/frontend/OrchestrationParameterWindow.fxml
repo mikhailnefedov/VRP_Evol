@@ -36,9 +36,7 @@
       <ComboBox fx:id="selectionPicker" prefWidth="150.0" GridPane.rowIndex="6" />
       <ComboBox fx:id="crossoverPicker" prefWidth="150.0" GridPane.rowIndex="7" />
       <ComboBox fx:id="fitnessPicker" prefWidth="150.0" GridPane.rowIndex="8" />
-      <TextField fx:id="crossoverRate" disable="true" promptText="Crossoverwahrscheinlichkeit" text="0.1" GridPane.rowIndex="3" />
       <Label text="Mutationsrate:" GridPane.rowIndex="1" />
-      <Label text="Rekombinationsrate" GridPane.rowIndex="3" />
       <GridPane GridPane.rowIndex="11">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

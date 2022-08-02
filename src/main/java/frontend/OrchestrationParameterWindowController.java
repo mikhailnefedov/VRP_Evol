@@ -33,8 +33,6 @@ public class OrchestrationParameterWindowController {
     @FXML
     private ComboBox<ICrossover> crossoverPicker;
     @FXML
-    private TextField crossoverRate;
-    @FXML
     private ComboBox<IFitness> fitnessPicker;
     @FXML
     private TextField generationCount;
@@ -88,7 +86,6 @@ public class OrchestrationParameterWindowController {
 
         //crossover
         parameters.setCrossoverType(crossoverPicker.getValue());
-        parameters.setCrossoverRate(Double.parseDouble(crossoverRate.getText()));
 
         //mutation
         IMutation mutationType = mutationPicker.getValue();
