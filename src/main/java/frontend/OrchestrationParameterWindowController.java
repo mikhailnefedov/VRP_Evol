@@ -10,7 +10,6 @@ import backend.fitness.PenaltySumOfRoutesFitness;
 import backend.fitness.SumOfRoutesFitness;
 import backend.mutation.IMutation;
 import backend.mutation.InvertMutation;
-import backend.mutation.InvertRoutesMutation;
 import backend.mutation.SwapMutation;
 import backend.orchestration.GeneticAlgorithmOrchestrator;
 import backend.orchestration.OrchestrationParameters;
@@ -54,7 +53,7 @@ public class OrchestrationParameterWindowController {
         selectionPicker.getSelectionModel().select(0);
 
         //mutation
-        mutationPicker.getItems().addAll(new SwapMutation(), new InvertMutation(), new InvertRoutesMutation());
+        mutationPicker.getItems().addAll(new SwapMutation(), new InvertMutation());
         mutationPicker.getSelectionModel().select(0);
 
         //crossover

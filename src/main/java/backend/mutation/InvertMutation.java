@@ -5,29 +5,37 @@ import backend.models.VRPIndividual;
 
 import java.util.Random;
 
-public class InvertMutation implements IMutation {
+/**
+ * Inverts a genome sublist of a VRPIndividual
+ */
+public class InvertMutation extends BaseMutation {
 
-    private double mutationRate;
+    protected VRPIndividual executeMutation(VRPIndividual individual) {
+        int size = individual.getGenotype().size();
+        Random random = new Random();
+        int left = random.nextInt(size);
+        int right = random.nextInt(size);
 
-    @Override
-    public VRPIndividual mutate(VRPIndividual individual) {
-        double randomDouble = new Random().nextDouble();
-        if (randomDouble < mutationRate) {
-            individual = MutationHelper.doInvertMutationOnWholeGenotype(individual);
+        if (left > right) {
+            int tmp = left;
+            left = right;
+            right = tmp;
         }
 
-        individual.computeFitness();
+        while (left < right) {
+            Genome tmp = individual.getGenotype().get(left);
+            individual.getGenotype().set(left, individual.getGenotype().get(right));
+            individual.getGenotype().set(right, tmp);
+            left++;
+            right--;
+        }
 
         return individual;
-    }
-
-    @Override
-    public void setMutationRate(double mutationRate) {
-        this.mutationRate = mutationRate;
     }
 
     @Override
     public String toString() {
         return "InvertMutation";
     }
+
 }
