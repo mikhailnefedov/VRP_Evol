@@ -86,10 +86,10 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Beste Fitness:" />
+                  <Label text="Best Fitness:" />
                   <Label fx:id="bestFitnessValue" GridPane.rowIndex="1" />
                   <Label fx:id="sumOfRouteLengthsValue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Summe Routen:" GridPane.columnIndex="1" />
+                  <Label text="Sum of routes:" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>

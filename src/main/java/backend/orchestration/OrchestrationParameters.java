@@ -10,13 +10,15 @@ import lombok.Data;
 @Data
 public class OrchestrationParameters {
 
-    private ISelection selectionType;
+    private ISelection parentSelectionType;
+    private ISelection environmentSelectionType;
     private ICrossover crossoverType;
     private IMutation mutationType;
     private IFitness fitnessType;
     private int generationCount;
     private int deliveryTruckCount;
     private IData mapType;
-    private int populationCount;
+    private int populationSize;
     private int parentsCount;
+    private int childrenCount;
 }

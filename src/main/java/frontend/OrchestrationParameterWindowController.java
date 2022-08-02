@@ -13,13 +13,13 @@ import backend.mutation.InvertMutation;
 import backend.mutation.SwapMutation;
 import backend.orchestration.GeneticAlgorithmOrchestrator;
 import backend.orchestration.OrchestrationParameters;
-import backend.selection.ISelection;
-import backend.selection.RankingBasedSelection;
-import backend.selection.BestXSelection;
-import backend.selection.TournamentSelection;
+import backend.selection.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrchestrationParameterWindowController {
 
@@ -28,7 +28,9 @@ public class OrchestrationParameterWindowController {
     @FXML
     private TextField mutationRate;
     @FXML
-    private ComboBox<ISelection> selectionPicker;
+    private ComboBox<ISelection> parentSelectionPicker;
+    @FXML
+    private ComboBox<ISelection> environmentSelectionPicker;
     @FXML
     private ComboBox<ICrossover> crossoverPicker;
     @FXML
@@ -38,32 +40,31 @@ public class OrchestrationParameterWindowController {
     @FXML
     private TextField deliveryTruckCount;
     @FXML
-    private TextField populationCount;
+    private TextField populationSize;
     @FXML
     private TextField parentsCount;
+    @FXML
+    private TextField childrenCount;
 
     public OrchestrationParameterWindowController() {
-
     }
 
     @FXML
     protected void initialize() {
-        //selection
-        selectionPicker.getItems().addAll(new BestXSelection(), new RankingBasedSelection(), new TournamentSelection());
-        selectionPicker.getSelectionModel().select(0);
+        ArrayList<ComboBox> comboBoxes = new ArrayList<>(
+                List.of(parentSelectionPicker, environmentSelectionPicker, mutationPicker, crossoverPicker, fitnessPicker));
 
-        //mutation
+        parentSelectionPicker.getItems().addAll(new RankingBasedSelection(), new TournamentSelection());
+
+        environmentSelectionPicker.getItems().addAll(new QRound2FoldTournamentSelection(), new BestXSelection());
+
         mutationPicker.getItems().addAll(new SwapMutation(), new InvertMutation());
-        mutationPicker.getSelectionModel().select(0);
 
-        //crossover
         crossoverPicker.getItems().addAll(new OrderCrossover(), new EdgeCrossover());
-        crossoverPicker.getSelectionModel().select(0);
 
-        //fitness
         fitnessPicker.getItems().addAll(new LongestRouteFitness(), new SumOfRoutesFitness(), new PenaltySumOfRoutesFitness());
-        fitnessPicker.getSelectionModel().select(0);
 
+        comboBoxes.forEach(c -> c.getSelectionModel().select(0));
     }
 
     public void startGeneticAlgorithm() {
@@ -78,30 +79,29 @@ public class OrchestrationParameterWindowController {
     private OrchestrationParameters createOrchestrationParameters() {
         OrchestrationParameters parameters = new OrchestrationParameters();
 
-        //selection
-        ISelection selectionType = selectionPicker.getValue();
-        selectionType.setSelectionCount(Integer.parseInt(parentsCount.getText()));
-        parameters.setSelectionType(selectionType);
+        ISelection parentSelection = parentSelectionPicker.getValue();
+        parentSelection.setSelectionCount(Integer.parseInt(parentsCount.getText()));
+        parameters.setParentSelectionType(parentSelection);
 
-        //crossover
+        ISelection environmentSelection = environmentSelectionPicker.getValue();
+        environmentSelection.setSelectionCount(Integer.parseInt(populationSize.getText()));
+        parameters.setEnvironmentSelectionType(parentSelection);
+
         parameters.setCrossoverType(crossoverPicker.getValue());
 
-        //mutation
         IMutation mutationType = mutationPicker.getValue();
         mutationType.setMutationRate(Double.parseDouble(mutationRate.getText()));
         parameters.setMutationType(mutationType);
 
+        parameters.setFitnessType(fitnessPicker.getValue());
+
         parameters.setGenerationCount(Integer.parseInt(generationCount.getText()));
         parameters.setParentsCount(Integer.parseInt(parentsCount.getText()));
+        parameters.setChildrenCount(Integer.parseInt(childrenCount.getText()));
         parameters.setDeliveryTruckCount(Integer.parseInt(deliveryTruckCount.getText()));
+        parameters.setPopulationSize(Integer.parseInt(populationSize.getText()));
 
-        //map
-        IData data = new Cluster4();
-        parameters.setMapType(data);
-
-        parameters.setPopulationCount(Integer.parseInt(populationCount.getText()));
-
-        parameters.setFitnessType(fitnessPicker.getValue());
+        parameters.setMapType(new Cluster4());
 
         return parameters;
     }

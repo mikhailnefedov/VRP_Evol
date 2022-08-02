@@ -32,14 +32,14 @@ public class GeneticAlgorithmOrchestrator {
     private Comparator<VRPIndividual> compareByFitness;
 
     public GeneticAlgorithmOrchestrator(OrchestrationParameters parameters) {
-        this.selection = parameters.getSelectionType();
+        this.selection = parameters.getParentSelectionType();
         this.crossover = parameters.getCrossoverType();
         this.mutation = parameters.getMutationType();
         this.generationCount = parameters.getGenerationCount();
         this.deliveryTruckCount = parameters.getDeliveryTruckCount();
         this.data = parameters.getMapType();
 
-        this.populationCount = parameters.getPopulationCount();
+        this.populationCount = parameters.getPopulationSize();
         this.parentsCount = parameters.getParentsCount();
         this.childrenCount = populationCount - parentsCount;
 
