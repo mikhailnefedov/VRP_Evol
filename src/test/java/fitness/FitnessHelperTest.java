@@ -28,31 +28,7 @@ public class FitnessHelperTest {
     private IData dataMock;
 
     @Test
-    public void computeTruckRoutes_Simple_Route_correct_computation() {
-        VRPIndividual individual = new VRPIndividual();
-        DeliveryTruck firstDeliveryTruck = new DeliveryTruck();
-        individual.setGenotype(new ArrayList<>(List.of(
-                new Customer(1, 0.0,0.0),
-                new Customer(2, 1.0,0.0),
-                new Customer(3, 0.0,1.0),
-                firstDeliveryTruck,
-                new Customer(4, 0.0, 0.0)
-        )));
-
-        HashMap<DeliveryTruck, ArrayList<Customer>> result = FitnessHelper.computeTruckRoutes(individual.getGenotype());
-
-        Assert.assertEquals(2, result.keySet().size());
-        Assert.assertEquals(3, result.get(firstDeliveryTruck).size());
-
-        int customerCount = 0;
-        for (DeliveryTruck truck : result.keySet()) {
-            customerCount += result.get(truck).size();
-        }
-        Assert.assertEquals(4, customerCount);
-    }
-
-    @Test
-    public void computeTruckRoutes_DeliveryTruckWithoutCustomers_ThrowsNoErrors() {
+    public void computeTruckRoutes_DeliveryTruckWithoutCustomers_ContainsRouteLengthZero() {
         VRPIndividual individual = new VRPIndividual();
         DeliveryTruck firstDeliveryTruck = new DeliveryTruck();
         individual.setGenotype(new ArrayList<>(List.of(
@@ -60,16 +36,10 @@ public class FitnessHelperTest {
                 new Customer(4, 0.0, 0.0)
         )));
 
-        HashMap<DeliveryTruck, ArrayList<Customer>> result = FitnessHelper.computeTruckRoutes(individual.getGenotype());
+        HashMap<DeliveryTruck, Double> result = FitnessHelper.computeRouteLengths(individual.getGenotype());
 
         Assert.assertEquals(2, result.keySet().size());
-        Assert.assertEquals(0, result.get(firstDeliveryTruck).size());
-
-        int customerCount = 0;
-        for (DeliveryTruck truck : result.keySet()) {
-            customerCount += result.get(truck).size();
-        }
-        Assert.assertEquals(1, customerCount);
+        Assert.assertEquals(0.0, result.get(firstDeliveryTruck), 0.0);
     }
 
     @Test
@@ -82,8 +52,7 @@ public class FitnessHelperTest {
         when(dataMock.getFleetHQCoordinates()).thenReturn(new Tuple<>(0.0, 0.0));
         FitnessHelper.setData(dataMock);
 
-        HashMap<DeliveryTruck, ArrayList<Customer>> truckRoutes = FitnessHelper.computeTruckRoutes(individual.getGenotype());
-        HashMap<DeliveryTruck, Double> routeLengths = FitnessHelper.computeRouteLengths(truckRoutes);
+        HashMap<DeliveryTruck, Double> routeLengths = FitnessHelper.computeRouteLengths(individual.getGenotype());
         DeliveryTruck deliveryTruck = routeLengths.keySet().stream().findFirst().get();
 
         //Pythagorean Theorem: 3 + 4 + 5 = 12
@@ -102,8 +71,7 @@ public class FitnessHelperTest {
         when(dataMock.getFleetHQCoordinates()).thenReturn(new Tuple<>(0.0, 0.0));
         FitnessHelper.setData(dataMock);
 
-        HashMap<DeliveryTruck, ArrayList<Customer>> truckRoutes = FitnessHelper.computeTruckRoutes(individual.getGenotype());
-        HashMap<DeliveryTruck, Double> routeLengths = FitnessHelper.computeRouteLengths(truckRoutes);
+        HashMap<DeliveryTruck, Double> routeLengths = FitnessHelper.computeRouteLengths(individual.getGenotype());
         ArrayList<Double> routes = new ArrayList<>(routeLengths.values());
 
         Assert.assertTrue(routes.contains(2.0));

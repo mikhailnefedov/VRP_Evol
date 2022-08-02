@@ -7,14 +7,15 @@ import backend.models.Genome;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * The sum of the truck routes is the fitness of the indiviudal
+ */
 public class SumOfRoutesFitness implements IFitness {
 
     @Override
     public double computeFitness(ArrayList<Genome> genotype) {
-        HashMap<DeliveryTruck, ArrayList<Customer>> truckRoutes = FitnessHelper.computeTruckRoutes(genotype);
-        HashMap<DeliveryTruck, Double> routeLenghts = FitnessHelper.computeRouteLengths(truckRoutes);
-
-        return routeLenghts.values().stream().reduce(0.0, Double::sum);
+        HashMap<DeliveryTruck, Double> routeLengths = FitnessHelper.computeRouteLengths(genotype);
+        return routeLengths.values().stream().reduce(0.0, Double::sum);
     }
 
     @Override
