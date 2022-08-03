@@ -1,30 +1,26 @@
 package frontend;
 
-import backend.data.IData;
 import backend.helper.Tuple;
 import backend.models.Customer;
 import backend.models.Genome;
+import backend.orchestration.OrchestrationParameters;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class WindowController {
 
     @FXML
     private LineChart<Integer, Double> fitnessGraph;
-    private static XYChart.Series<Integer, Double> fitnessDataSeries;
+    private static XYChart.Series<Integer, Double> fitnessData;
     @FXML
     private ScatterChart<Double, Double> scatterChart;
-    private static XYChart.Series<Double, Double> scatterCustomerSeries;
-    private static XYChart.Series<Double, Double> hqSeries;
+    private static XYChart.Series<Double, Double> headquarters;
     @FXML
     private Label bestFitnessValue;
     private static SimpleStringProperty bestFitnessValueProperty;
@@ -32,8 +28,8 @@ public class WindowController {
     private Label sumOfRouteLengthsValue;
     private static SimpleStringProperty sumOfRouteLengthsProperty;
 
-    private static ArrayList<XYChart.Series<Double, Double>> routesSeries;
-    private final int MAX_DELIVERYTRUCKS = 50;
+    private static ArrayList<XYChart.Series<Double, Double>> routes;
+    private final int MAX_DELIVERYTRUCKS = 50;   // bad design choice, can only show 50 delivery routes
 
     public WindowController() {
 
@@ -41,29 +37,41 @@ public class WindowController {
 
     @FXML
     protected void initialize() {
-        fitnessDataSeries = new XYChart.Series<>();
-        fitnessGraph.getData().add(fitnessDataSeries);
+        initializeFitnessGraph();
+        initializeFitnessProperties();
+        initializeScatterChart();
+    }
 
-        scatterCustomerSeries = new XYChart.Series<>();
-        hqSeries = new XYChart.Series<>();
-        scatterChart.getData().addAll(scatterCustomerSeries, hqSeries);
+    private void initializeFitnessGraph() {
+        fitnessData = new XYChart.Series<>();
+        fitnessGraph.getData().add(fitnessData);
+    }
 
+    private void initializeFitnessProperties() {
         bestFitnessValueProperty = new SimpleStringProperty();
         bestFitnessValue.textProperty().bind(bestFitnessValueProperty);
-
         sumOfRouteLengthsProperty = new SimpleStringProperty();
         sumOfRouteLengthsValue.textProperty().bind(sumOfRouteLengthsProperty);
+    }
 
-        routesSeries = new ArrayList<>();
+    private void initializeScatterChart() {
+        headquarters = new XYChart.Series<>();
+        scatterChart.getData().addAll(headquarters);
+        routes = new ArrayList<>();
         for (int i = 0; i < MAX_DELIVERYTRUCKS; i++) {
-            XYChart.Series<Double, Double> routeSeries = new XYChart.Series<>();
-            routesSeries.add(routeSeries);
+            XYChart.Series<Double, Double> route = new XYChart.Series<>();
+            routes.add(route);
         }
-        scatterChart.getData().addAll(routesSeries);
+        scatterChart.getData().addAll(routes);
+    }
+
+    public static void initializeGUIWithData(OrchestrationParameters parameters) {
+        Tuple<Double, Double> hqCoordinates = parameters.getData().getFleetHQCoordinates();
+        headquarters.getData().add(new XYChart.Data<>(hqCoordinates.getLeft(), hqCoordinates.getRight()));
     }
 
     public static void addDataPointToFitnessGraph(int generationNumber, double fitnessValue, double sumOfRouteLengths) {
-        fitnessDataSeries.getData().add(new XYChart.Data<>(generationNumber, fitnessValue));
+        fitnessData.getData().add(new XYChart.Data<>(generationNumber, fitnessValue));
         bestFitnessValueProperty.set(String.valueOf(fitnessValue));
         sumOfRouteLengthsProperty.set(String.valueOf(sumOfRouteLengths));
     }
@@ -75,41 +83,28 @@ public class WindowController {
         for (int i = 0; i < genotype.size(); i++) {
             if (genotype.get(i).getClass().equals(Customer.class)) {
                 Customer c = (Customer) genotype.get(i);
-                routesSeries.get(routeNumber).getData().add(new XYChart.Data<>(c.getX(), c.getY()));
+                routes.get(routeNumber).getData().add(new XYChart.Data<>(c.getX(), c.getY()));
             } else {
                 routeNumber++;
             }
         }
     }
 
-    public static void clearElements() {
+    public static void clearGUI() {
         clearFitnessGraph();
         clearScatterChart();
     }
 
-    public static void clearFitnessGraph() {
-        fitnessDataSeries.getData().clear();
+    private static void clearFitnessGraph() {
+        fitnessData.getData().clear();
     }
 
-    public static void initializeScatterChart(IData data, int generationCount) {
-        ArrayList<Genome> genomes = data.getCustomers();
-        List<XYChart.Data<Double, Double>> points = genomes.stream()
-                .map(g -> (Customer) g)
-                .map(c -> new XYChart.Data<>(c.getX(), c.getY()))
-                .collect(Collectors.toList());
-        scatterCustomerSeries.getData().addAll(points);
-
-        Tuple<Double, Double> hqCoordinates = data.getFleetHQCoordinates();
-        hqSeries.getData().add(new XYChart.Data<>(hqCoordinates.getLeft(), hqCoordinates.getRight()));
-    }
-
-    public static void clearScatterChart() {
-        scatterCustomerSeries.getData().clear();
-        hqSeries.getData().clear();
+    private static void clearScatterChart() {
+        headquarters.getData().clear();
         clearRoutes();
     }
 
     private static void clearRoutes() {
-        routesSeries.forEach(s -> s.getData().clear());
+        routes.forEach(s -> s.getData().clear());
     }
 }

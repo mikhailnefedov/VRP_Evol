@@ -17,7 +17,7 @@ public class Main extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Window.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("BinPackEvol");
+        stage.setTitle("Evolutionary VRP");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

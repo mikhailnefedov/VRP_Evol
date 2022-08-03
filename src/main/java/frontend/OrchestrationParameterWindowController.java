@@ -71,8 +71,8 @@ public class OrchestrationParameterWindowController {
         OrchestrationParameters parameters = createOrchestrationParameters();
         GeneticAlgorithmOrchestrator geneticAlgorithmOrchestrator = new GeneticAlgorithmOrchestrator(parameters);
 
-        WindowController.clearElements();
-        WindowController.initializeScatterChart(parameters.getData(), parameters.getGenerationCount());
+        WindowController.clearGUI();
+        WindowController.initializeGUIWithData(parameters);
         geneticAlgorithmOrchestrator.executeGeneticAlgorithm();
     }
 

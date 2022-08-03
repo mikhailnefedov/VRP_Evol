@@ -119,9 +119,7 @@ public class GeneticAlgorithmOrchestrator {
         }
 
         customers.addAll(deliveryTrucks);
-
         Collections.shuffle(customers);
-
         return new VRPIndividual(customers);
     }
 }
