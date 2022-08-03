@@ -72,7 +72,7 @@ public class OrchestrationParameterWindowController {
         GeneticAlgorithmOrchestrator geneticAlgorithmOrchestrator = new GeneticAlgorithmOrchestrator(parameters);
 
         WindowController.clearElements();
-        WindowController.initializeScatterChart(parameters.getMapType(), parameters.getGenerationCount());
+        WindowController.initializeScatterChart(parameters.getData(), parameters.getGenerationCount());
         geneticAlgorithmOrchestrator.executeGeneticAlgorithm();
     }
 
@@ -81,19 +81,19 @@ public class OrchestrationParameterWindowController {
 
         ISelection parentSelection = parentSelectionPicker.getValue();
         parentSelection.setSelectionCount(Integer.parseInt(parentsCount.getText()));
-        parameters.setParentSelectionType(parentSelection);
+        parameters.setParentSelection(parentSelection);
 
         ISelection environmentSelection = environmentSelectionPicker.getValue();
         environmentSelection.setSelectionCount(Integer.parseInt(populationSize.getText()));
-        parameters.setEnvironmentSelectionType(parentSelection);
+        parameters.setEnvironmentSelection(parentSelection);
 
-        parameters.setCrossoverType(crossoverPicker.getValue());
+        parameters.setCrossover(crossoverPicker.getValue());
 
         IMutation mutationType = mutationPicker.getValue();
         mutationType.setMutationRate(Double.parseDouble(mutationRate.getText()));
-        parameters.setMutationType(mutationType);
+        parameters.setMutation(mutationType);
 
-        parameters.setFitnessType(fitnessPicker.getValue());
+        parameters.setFitness(fitnessPicker.getValue());
 
         parameters.setGenerationCount(Integer.parseInt(generationCount.getText()));
         parameters.setParentsCount(Integer.parseInt(parentsCount.getText()));
@@ -101,7 +101,7 @@ public class OrchestrationParameterWindowController {
         parameters.setDeliveryTruckCount(Integer.parseInt(deliveryTruckCount.getText()));
         parameters.setPopulationSize(Integer.parseInt(populationSize.getText()));
 
-        parameters.setMapType(new Cluster4());
+        parameters.setData(new Cluster4());
 
         return parameters;
     }

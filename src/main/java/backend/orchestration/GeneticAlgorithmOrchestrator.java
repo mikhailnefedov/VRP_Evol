@@ -18,9 +18,11 @@ import java.util.Random;
 
 public class GeneticAlgorithmOrchestrator {
 
-    private ISelection selection;
+    private ISelection parentSelection;
     private ICrossover crossover;
     private IMutation mutation;
+    private ISelection environmentSelection;
+
     private final int generationCount;
     private final int deliveryTruckCount;
     private final IData data;
@@ -28,35 +30,35 @@ public class GeneticAlgorithmOrchestrator {
     private final int parentsCount;
     private final int childrenCount;
 
-    private Random random;
     private Comparator<VRPIndividual> compareByFitness;
 
     public GeneticAlgorithmOrchestrator(OrchestrationParameters parameters) {
-        this.selection = parameters.getParentSelectionType();
-        this.crossover = parameters.getCrossoverType();
-        this.mutation = parameters.getMutationType();
+
+        this.parentSelection = parameters.getParentSelection();
+        this.crossover = parameters.getCrossover();
+        this.mutation = parameters.getMutation();
+        this.environmentSelection = parameters.getEnvironmentSelection();
         this.generationCount = parameters.getGenerationCount();
         this.deliveryTruckCount = parameters.getDeliveryTruckCount();
-        this.data = parameters.getMapType();
+        this.data = parameters.getData();
 
         this.populationCount = parameters.getPopulationSize();
         this.parentsCount = parameters.getParentsCount();
-        this.childrenCount = populationCount - parentsCount;
+        this.childrenCount = parameters.getChildrenCount();
 
         FitnessHelper.setData(data);
-        VRPIndividual.setFitness(parameters.getFitnessType());
+        VRPIndividual.setFitness(parameters.getFitness());
 
-        random = new Random();
         compareByFitness = Comparator.comparingDouble(VRPIndividual::getFitness);
     }
 
     public void executeGeneticAlgorithm() {
-
+        Random random = new Random();
         ArrayList<VRPIndividual> generation = createStartGeneration();
         addBestFitnessToGUI(0, generation);
         int t = 1;
         while (t < generationCount) {
-            ArrayList<VRPIndividual> parents = selection.select(generation);
+            ArrayList<VRPIndividual> parents = parentSelection.select(generation);
             generation = new ArrayList<>();
             for (int i = 0; i < childrenCount; i++) {
                 int index1 = random.nextInt(parentsCount);
@@ -65,20 +67,11 @@ public class GeneticAlgorithmOrchestrator {
                 child = mutation.mutate(child);
                 generation.add(child);
             }
+            generation = environmentSelection.select(generation);
             addBestFitnessToGUI(t, generation);
             t++;
         }
         addRoutesToGUI(generation);
-        printBestIndividual(generation);
-    }
-
-    private void printBestIndividual(ArrayList<VRPIndividual> generation) {
-        System.out.println("######RESULT:");
-        VRPIndividual bestIndividual = getBestIndividual(generation);
-        bestIndividual.getGenotype().forEach(g -> System.out.println(g.toString() + ", "));
-        System.out.println(bestIndividual.getFitness());
-        System.out.println();
-        System.out.println("-------------");
     }
 
     private void addBestFitnessToGUI(int generationNumber, ArrayList<VRPIndividual> generation) {

@@ -44,6 +44,6 @@ public class QRound2FoldTournamentSelection extends BaseSelection {
 
     @Override
     public String toString() {
-        return "RouletteSelection";
+        return "QRound2FoldTournamentSelection";
     }
 }
